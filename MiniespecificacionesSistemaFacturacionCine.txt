@@ -1,0 +1,134 @@
+ALGORITMO SistemaFacturacionCine
+
+    DEFINIR numVentas, i, cantidad COMO ENTERO
+    DEFINIR precio, subtotal, descuento, totalPagar COMO REAL
+    DEFINIR descuentoPorcentaje, sumaTotales, promedio COMO REAL
+    DEFINIR ventaMayor, ventaMenor COMO REAL
+    DEFINIR indiceMayor, indiceMenor COMO ENTERO
+    DEFINIR nombre, apellido COMO CADENA
+
+    // Entrada de cantidad de ventas
+    ESCRIBIR "Ingrese el número de ventas a registrar:"
+    LEER numVentas
+
+    // Arreglos paralelos
+    DIMENSION nombres[numVentas]
+    DIMENSION apellidos[numVentas]
+    DIMENSION cantidades[numVentas]
+    DIMENSION precios[numVentas]
+    DIMENSION totales[numVentas]
+
+    i <- 0
+
+    // Registro de ventas
+    MIENTRAS i < numVentas HACER
+
+        
+        ESCRIBIR "Registro de venta ", i + 1
+
+        ESCRIBIR "Ingrese el nombre del cliente:"
+        LEER nombre
+
+        ESCRIBIR "Ingrese el apellido del cliente:"
+        LEER apellido
+
+        ESCRIBIR "Ingrese la cantidad de entradas:"
+        LEER cantidad
+
+        ESCRIBIR "Ingrese el precio unitario:"
+        LEER precio
+
+        // Calcular subtotal
+        subtotal <- cantidad * precio
+
+        // Determinar descuento
+        SI cantidad = 1 ENTONCES
+            descuentoPorcentaje <- 0.10
+
+        SINO
+            SI cantidad >= 2 Y cantidad <= 3 ENTONCES
+                descuentoPorcentaje <- 0.20
+
+            SINO
+                SI cantidad >= 4 Y cantidad <= 5 ENTONCES
+                    descuentoPorcentaje <- 0.30
+
+                SINO
+                    descuentoPorcentaje <- 0.40
+                FIN SI
+            FIN SI
+        FIN SI
+
+        // Calcular descuento y total
+        descuento <- subtotal * descuentoPorcentaje
+        totalPagar <- subtotal - descuento
+
+        // Guardar datos en arreglos
+        nombres[i] <- nombre
+        apellidos[i] <- apellido
+        cantidades[i] <- cantidad
+        precios[i] <- precio
+        totales[i] <- totalPagar
+
+        // Mostrar resumen
+        ESCRIBIR "Subtotal: ", subtotal
+        ESCRIBIR "Descuento: ", descuento
+        ESCRIBIR "Total a pagar: ", totalPagar
+
+        i <- i + 1
+
+    FIN MIENTRAS
+
+    sumaTotales <- 0
+
+    ventaMayor <- totales[0]
+    ventaMenor <- totales[0]
+
+    indiceMayor <- 0
+    indiceMenor <- 0
+
+    i <- 0
+
+    MIENTRAS i < numVentas HACER
+
+        ESCRIBIR "Venta ", i + 1
+        ESCRIBIR "Nombre: ", nombres[i]
+        ESCRIBIR "Apellido: ", apellidos[i]
+        ESCRIBIR "Cantidad de entradas: ", cantidades[i]
+        ESCRIBIR "Precio unitario: ", precios[i]
+        ESCRIBIR "Total pagado: ", totales[i]
+
+        sumaTotales <- sumaTotales + totales[i]
+
+        // Verificar venta mayor
+        SI totales[i] > ventaMayor ENTONCES
+            ventaMayor <- totales[i]
+            indiceMayor <- i
+        FIN SI
+
+        // Verificar venta menor
+        SI totales[i] < ventaMenor ENTONCES
+            ventaMenor <- totales[i]
+            indiceMenor <- i
+        FIN SI
+
+        i <- i + 1
+
+    FIN MIENTRAS
+
+    // Calcular promedio
+    promedio <- sumaTotales / numVentas
+
+    // Mostrar estadísticas
+    ESCRIBIR "=================================="
+    ESCRIBIR "Promedio de ventas: ", promedio
+
+    ESCRIBIR "Venta de mayor monto:"
+    ESCRIBIR nombres[indiceMayor], " ", apellidos[indiceMayor]
+    ESCRIBIR "Total: ", ventaMayor
+
+    ESCRIBIR "Venta de menor monto:"
+    ESCRIBIR nombres[indiceMenor], " ", apellidos[indiceMenor]
+    ESCRIBIR "Total: ", ventaMenor
+
+FIN ALGORITMO
